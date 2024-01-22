@@ -1,0 +1,40 @@
+Testing Objects => To Grab and put into Inventory 
+
+GrabInvObjectsRef => For repositioning 
+
+GrabInvObjects => Object to use back from inventory 
+
+CanvasScaler => The inventory screen 
+
+
+
+
+***SetUp***
+
+go to the items folder then create the new item. 
+Then fill up data for your project.  
+
+Go to the InventoryGrabItems script; 
+
+Create two object 
+For example, 
+public GameObject redShoes;
+public GameObject redShoesRef; 
+
+and then create one function for your repositioning. For example, 
+public void RedShoesRepositioning()
+    {
+        DisableEveryObject(); 
+        redShoes.transform.position = redShoesRef.transform.position;
+        redShoes.SetActive(true); 
+    }
+
+Then, go to the InventoryItemController script, 
+
+Inside, UseItem function, 
+put your if statement. check with the id that you fill up while creating the item. 
+Copy the script from the above if statement. All you need to do is change the function name and object name. 
+
+
+***Note*** 
+Objects are using rigid body with Gravity. 

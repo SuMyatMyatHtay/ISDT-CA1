@@ -1,0 +1,253 @@
+//ShipMotion
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class shipMotion : MonoBehaviour
+{
+    [Header("Handle Settings")]
+    private bool isHandleGrabbed = false;
+    public GameObject handle;
+    private Transform originalHandleParent;
+
+    float r;
+    [Header("Throttle Settings")]
+    private bool isThrottleGrabbed = false;
+    public GameObject throttle;
+    private Transform originalThrottleParent;
+   private Vector3 direction = new Vector3(0, 0, -1);
+    //Throttle flames
+    [SerializeField] private List<GameObject> airCraftFlames = new List<GameObject>();
+
+    [Header("Ship Settings")]
+    public float movementSpeed=1f;
+    public float straightLineDistance = 1000f;
+    public GameObject ship;
+    public shipEffects shipEffects;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        originalThrottleParent = throttle.transform.parent;
+        originalHandleParent = handle.transform.parent;
+}
+
+    // Update is called once per frame
+    void Update()
+    {
+        moveByThrottle();
+
+        moveByHandle();
+    }
+
+    private void moveByHandle()
+    {
+        float XAngle=0f;
+        float ZAngle = 0f;
+
+
+       
+        //change in Z direction of handle
+       //handle.transform.eulerAngles.z --> Left (Pos) Right (Neg)
+        if (handle.transform.eulerAngles.z > 180)
+        {
+            //change in z rotation
+            ZAngle = -(360 - handle.transform.eulerAngles.z) / 2;
+            controlHandleZ(ZAngle, false);
+           // Debug.Log("Negative rotate" + ZAngle);
+
+        }
+        else
+        {
+            ZAngle = (handle.transform.eulerAngles.z / 2);
+         
+                controlHandleZ(ZAngle, true);
+            
+          //  Debug.Log("Positive rotate" + ZAngle);
+        }
+        
+        //change in x rotation of handle
+        //positive (Down) Ship.X >0
+        //negative (Up) 
+        if (handle.transform.eulerAngles.x > 315)
+        {
+            XAngle = handle.transform.eulerAngles.x - 315;
+            controlHandleX(XAngle/2);
+        }
+        //negative (Up)  Ship.X <0
+        else
+        {
+            XAngle = -(315 - handle.transform.eulerAngles.x);
+            controlHandleX(XAngle/2);
+        }
+       // Debug.Log("Z rotation transform" + handle.transform.rotation.eulerAngles.z);
+      
+    }
+
+    //x rotation of handle
+    private void controlHandleZ(float Angle, bool positive)
+    {
+        //rotate by x-axis
+        ship.transform.rotation = Quaternion.Euler(ship.transform.rotation.eulerAngles.x, ship.transform.rotation.eulerAngles.y, Angle);
+        //Move by x-axis
+        
+        if (Angle < 0)
+        {
+            Angle = -Angle;
+        }
+       
+        Vector3 vectorDir = positive?Vector3.right: -Vector3.right;
+        Vector3 targetPosition = ship.transform.position + vectorDir * straightLineDistance * Mathf.Lerp(0, Angle * 2f, Time.deltaTime);
+        ship.transform.position = Vector3.Lerp(ship.transform.position, targetPosition, Time.deltaTime * Mathf.Lerp(0, Angle * 2f, Time.deltaTime));
+    }
+
+    //z rotation of handle
+    private void controlHandleX(float Angle)
+    {
+        //rotate by x-axis
+        ship.transform.rotation = Quaternion.Euler(Angle, ship.transform.rotation.eulerAngles.y, ship.transform.rotation.eulerAngles.z);
+    }
+
+
+    private void moveByThrottle()
+    {
+
+
+        if (throttle.transform.localRotation.eulerAngles.x >90)
+        {
+            float newAngle= 360 - throttle.transform.localRotation.eulerAngles.x;
+           
+            movementSpeed = newAngle/5;
+           
+            direction = new Vector3(0, 0, 1);
+          //  Debug.Log("ThrottleReverse" +newAngle);
+            foreach (var flame in airCraftFlames)
+            {
+                shipEffects.aircraftEngineFlamesfloat(flame, newAngle);
+            }
+        }
+        else if (throttle.transform.localRotation.eulerAngles.x!=0)
+        {
+            foreach (var flame in airCraftFlames)
+            {
+                shipEffects.aircraftEngineFlamesfloat(flame, throttle.transform.localRotation.eulerAngles.x);
+            }
+          //  Debug.Log("ThrottleForward" + throttle.transform.localRotation.eulerAngles.x);
+            movementSpeed = throttle.transform.localRotation.eulerAngles.x/5;
+            direction = new Vector3(0, 0, -1);
+        }
+        else
+        {
+            movementSpeed = 1f;
+        }
+       // Debug.Log(movementSpeed);
+        // Debug.Log(throttle.transform.localRotation.eulerAngles.x+ " rotation");
+        Vector3 targetPosition = ship.transform.position + direction * straightLineDistance * Mathf.Lerp(0, movementSpeed, Time.deltaTime);
+
+            ship.transform.position = Vector3.Lerp(ship.transform.position, targetPosition, Time.deltaTime * movementSpeed);
+        
+
+    }
+
+
+    //
+    public void handleGrabMotion()
+    {
+        handle.transform.parent = originalHandleParent;
+        isHandleGrabbed = true;
+        Debug.Log("Handle Grabbed");
+    }
+
+    public void throttleGrabMotion()
+    {
+        throttle.transform.parent = originalThrottleParent;
+        isThrottleGrabbed = true;
+        Debug.Log("Throttle Grabbed");
+    }
+
+    public void throttleUngrabMotion()
+    {
+        isThrottleGrabbed = false;
+        Debug.Log("Throttle Ungrabbed");
+    }
+}
+
+//shipEffects
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class shipEffects : MonoBehaviour
+{
+    [Header("AircraftShooting")]
+    //Projectile Capsule
+    [SerializeField] private GameObject shootingProjectile;
+    //shootingSpeed
+    [SerializeField] private float shootingSpeed = 2400f;
+    //List of launching point
+    [SerializeField] public List<GameObject> launchersPoint = new List<GameObject>();
+
+    private bool resetCountdown = true;
+    private bool canShoot = true;
+    private List<GameObject> instantiatedProjectile = new List<GameObject>();
+
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public void aircraftEngineFlamesfloat(GameObject flame, float throttleAngle)
+    {
+        var flameSystem = flame.GetComponent<ParticleSystem>();
+        var flameMain = flameSystem.main;
+        var flameEmission = flameSystem.emission;
+        flameEmission.rateOverTime = (throttleAngle / 90) * 20;
+        flameMain.startLifetime = (throttleAngle / 90) * 5;
+        flameMain.startSize = (throttleAngle / 90) * 1 + 1;
+        flameMain.startColor = new Color(255, 255, 255, (throttleAngle / 90) * 127 + 128);
+    }
+
+    public void aircraftShooting()
+    {
+        if (resetCountdown == true)
+        {
+            StartCoroutine(resetShooting());
+        }
+        if (canShoot == true)
+        {
+            Physics.gravity = new Vector3(0, -0.5f, 0);
+            if (launchersPoint.Count != 0)
+            {
+                int launcherIndex = Random.Range(0, launchersPoint.Count - 1);
+                instantiatedProjectile.Add(Instantiate(shootingProjectile, launchersPoint[launcherIndex].transform.position, Random.rotation));
+                shootingProjectile.GetComponent<Rigidbody>().AddForce(launchersPoint[launcherIndex].transform.forward * shootingSpeed, ForceMode.Impulse);
+                var index = instantiatedProjectile.Count - 1;
+                Destroy(instantiatedProjectile[index], 5f);
+
+            }
+        }
+    }
+
+    private IEnumerator resetShooting()
+    {
+        resetCountdown = false;
+        yield return new WaitForSeconds(5f);
+        canShoot = false;
+        StartCoroutine(resumeShooting());
+    }
+    private IEnumerator resumeShooting()
+    {
+        yield return new WaitForSeconds(2f);
+        canShoot = true;
+        resetCountdown = true;
+    }
+}
+
+
+

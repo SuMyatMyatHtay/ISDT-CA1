@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3fdbcdc3d624cd46a965f5c25631163, type: 3}
+  m_Name: WarCraft1
+  m_EditorClassIdentifier: 
+  shipName: WarCraft1
+  shipAttackDamage: 20
+  shipHealth: 40
+  projectileLaunchers:
+  - {x: 2.369, y: 0.2830009, z: 1.814026}
+  - {x: 2.623, y: 0.2830009, z: 1.814026}
+  - {x: 2.623, y: 0.01599884, z: 1.814026}
+  - {x: 2.337, y: 0.01599884, z: 1.814026}
+  - {x: 1.69, y: 0.2700005, z: 1.814026}
+  - {x: 1.969, y: 0.2700005, z: 1.814026}
+  - {x: 1.969, y: 0.01599884, z: 1.814026}
+  - {x: 1.651, y: 0.01599884, z: 1.814026}
+  - {x: -1.7, y: 0.2700005, z: 1.814026}
+  - {x: -1.99, y: 0.2700005, z: 1.814026}
+  - {x: -1.696, y: 0.01499939, z: 1.814026}
+  - {x: -1.975, y: 0.01499939, z: 1.814026}
+  - {x: -2.356, y: 0.01499939, z: 1.814026}
+  - {x: -2.616, y: 0.01499939, z: 1.814026}
+  - {x: -2.616, y: 0.2849998, z: 1.814026}
+  - {x: -2.337, y: 0.2849998, z: 1.814026}

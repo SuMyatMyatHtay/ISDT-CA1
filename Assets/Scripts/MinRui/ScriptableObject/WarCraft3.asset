@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3fdbcdc3d624cd46a965f5c25631163, type: 3}
+  m_Name: WarCraft3
+  m_EditorClassIdentifier: 
+  shipName: WarCraft3
+  shipAttackDamage: 10
+  shipHealth: 30
+  projectileLaunchers:
+  - {x: -4.485178, y: -1.492032, z: -0.3289948}
+  - {x: -4.7763, y: -3.4, z: -0.3289948}
+  - {x: -4.685132, y: -1.862404, z: -0.3289948}
+  - {x: -4.435493, y: -1.777914, z: -0.3289948}
+  - {x: 4.768712, y: -1.565934, z: -0.8690033}
+  - {x: 4.458922, y: -1.524337, z: -0.8690033}
+  - {x: 4.399394, y: -1.7465, z: -0.8690033}
+  - {x: 4.717456, y: -1.873136, z: -0.8690033}
+  - {x: -2.843, y: -1.126, z: 5.091995}
+  - {x: 2.843001, y: -1.126, z: 5.091995}

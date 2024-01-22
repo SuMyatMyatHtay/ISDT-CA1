@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e89dcea0df7c2d443bb16c1094cdfac1, type: 3}
+  m_Name: YellowSFGun
+  m_EditorClassIdentifier: 
+  GunName: Yellow SF Gun
+  projectilePrefab: {fileID: 48933128276993846, guid: 2e26e720332d04741a47b79bae2ba830, type: 3}
+  maxBulletCount: 15
+  gunDamage: 15
+  BulletCountdown: 3
+  BulletSound: {fileID: 7180999778302859988, guid: 47099240f5b35c442b7ff3ef49e8d821, type: 3}

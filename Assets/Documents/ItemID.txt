@@ -1,0 +1,6 @@
+ItemID => Item 
+
+10 => RedShoes 
+11 => GoldenGoose 
+
+3 => Book (Testing) 
